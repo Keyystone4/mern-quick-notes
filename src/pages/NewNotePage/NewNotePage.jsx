@@ -1,4 +1,7 @@
+import { set } from 'mongoose';
 import { useState } from 'react';
+import * as notesService from '../../utilities/notes-service';
+
 
 export default function NewNotePage() {
   const [note, setNote] = useState('');
@@ -7,9 +10,11 @@ export default function NewNotePage() {
     setNote(evt.target.value)
   }
 
-  function handleSubmit(evt) {
+  async function handleSubmit(evt) {
     evt.preventDefault();
+    notesService.createNote(note);
     alert(note)
+    setNote('');
   }
 
   return (
@@ -17,7 +22,7 @@ export default function NewNotePage() {
       <h1>New Note</h1>
       <form action="" onSubmit={handleSubmit}>
         <label htmlFor="text">Text:
-          <input type="text" name="note" id="text" onChange={handleChange} />
+          <input type="text" name="note" id="text" onChange={handleChange} value={note} />
         </label>
         <input type="submit" value="Add Note" />
       </form>
